@@ -97,3 +97,24 @@ router.post('/logout', withAuth, (req, res) => {
         res.status(404).end();
     }
 });
+
+router.delete('/:id', withAuth, (req, res) => {
+    User.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(userData => {
+        if (!userData) {
+            res.status(404).json({ message: 'Invalid ID' });
+            return;
+        }
+        res.json(userData);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
+
+module.exports = router;
