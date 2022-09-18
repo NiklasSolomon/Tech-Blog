@@ -62,3 +62,28 @@ router.post('/', (req, res) => {
         });
     });
 });
+
+router.post('/login', (req, res) => {
+    User.findOne({
+        where: {
+            email: req.body.email
+        }
+    })
+    .then(userData => {
+        if (!userData) {
+            res.status(400).json({ message: 'Invalid Email/Password' });
+            return;
+        }
+        const passwordCheck = userData.checkPassword(req.body.password);
+        if (!passwordCheck) {
+            res.status(400).json({ message: 'Invalid Email/Password' });
+            return;
+        }
+        req.session.save(() => {
+            req.session.user_id = userData.id;
+            req.session.username = userData.username;
+            req.session.loggedIn = true;
+            res.json({ user: userData, message: 'Login successful' });
+        });
+    });
+});
