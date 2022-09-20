@@ -75,3 +75,26 @@ router.post('/', withAuth, (req, res) => {
         res.status(500).json(err);
     });
 });
+
+router.put('/:id', withAuth, (req, res) => {
+    Post.update({
+        title: req.body.title,
+        post_content: req.body.post_content
+    },
+    {
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(postData => {
+        if (!postData) {
+            res.status(404).json({ message: 'Invalid ID'});
+            return;
+        }
+        res.json(postData);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
