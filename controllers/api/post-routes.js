@@ -8,7 +8,8 @@ router.get('/', (req, res) => {
         attributes: ['id',
                     'post_content',
                     'title',
-                    'created_at'],
+                    'created_at'
+                ],
         order: [['created_at', 'DESC']],
         include: [
             {
@@ -26,6 +27,36 @@ router.get('/', (req, res) => {
         ]
     })
     .then(postData => res.json(postData))
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
+
+router.get('/:id', (req, res) => {
+    Post.findOne({
+        where: {
+            id: req.params.id
+        },
+        attributes: ['id',
+                    'post_content',
+                    'title',
+                    'created_at'
+                ],
+        include: [
+            {
+                model: User,
+                attributes: ['username']
+            }
+        ]
+    })
+    .then(postData => {
+        if (!postData) {
+            res.status(404).json({ message: 'Invalid ID'});
+            return;
+        }
+        res.json(postData);
+    })
     .catch(err => {
         console.log(err);
         res.status(500).json(err);
