@@ -1,9 +1,12 @@
-const username = document.querySelector('#username-login');
-const password = document.querySelector('#password-login');
+const usernameEl = document.querySelector('#username-login');
+const passwordEl = document.querySelector('#password-login');
 
 const login = async (event) => {
     event.preventDefault();
-    
+
+    const username = usernameEl.value.trim();
+    const password = passwordEl.value.trim();
+
     if (username && password) {
       const response = await fetch('/api/users/login', {
         method: 'post',
@@ -22,4 +25,4 @@ const login = async (event) => {
     }
 };
 
-document.querySelector('#login-form').addEventListener('submit', loginFormHandler);
+document.querySelector('#login').addEventListener('submit', login);
