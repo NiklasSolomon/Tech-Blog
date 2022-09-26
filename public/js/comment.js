@@ -1,0 +1,1 @@
+const commentEl = document.querySelector('textarea[name="comment-text"]');

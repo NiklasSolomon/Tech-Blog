@@ -1,5 +1,5 @@
 const titleEl = document.querySelector('input[name="title"]');
-const contentEl = document.querySelector('input[name="content"]');
+const contentEl = document.querySelector('textarea[name="post-content"]');
 
 const newPost = async (event) => {
     event.preventDefault();
@@ -10,11 +10,11 @@ const newPost = async (event) => {
     const response = await fetch(`/api/posts`, {
         method: 'POST',
         body: JSON.stringify({
-          title,
-          content
+            title,
+            content
         }),
         headers: {
-          'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         }
       });
     
